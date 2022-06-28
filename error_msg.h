@@ -1,33 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   error_msg.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junykim <junykim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/20 18:18:06 by junykim           #+#    #+#             */
-/*   Updated: 2022/05/20 18:53:03 by junykim          ###   ########.fr       */
+/*   Created: 2022/05/20 11:23:12 by junykim           #+#    #+#             */
+/*   Updated: 2022/06/28 16:06:05 by junykim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int main(void)
-{
+#ifndef ERROR_MSG_H
+# define ERROR_MSG_H
 
-	if (ac < 2)
-		error_message();
-	av[1] = input;
-	av[ac - 1] = output;
-	ac - 2 == cmd_num;
-	read_pipex();
-	
-}
-
-void	read_pipex()
-{
-	int	fd[2];
-	int	fd2[2];
-
-	pipe(fd);// fd[0] = 부모 프로세스, fd[1] = 자식 프로세스 
-	//1부모 n자식을 어떻게 만들지 ? 
-	dup2(fd[1], fd2[1]);// fd2에 값을 써넣어도 fd에 저장이 된다.
-}
+# define ERR_ARG_NUM "error argument num"
+# define ERR_ALLOC "Memory Allocation Fail\n"
+# define ERR_FORK "Fail to Fork\n"
+# define ERR_INPUT "Invalid number of arguments.\n"
+# define ERR_ENVP "Environment"
+# define ERR_CMD "Command not found: "
+# define ERR_HEREDOC "here_doc"
+#endif

@@ -1,19 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util_bonus.c                                       :+:      :+:    :+:   */
+/*   error_message_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junykim <junykim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/24 20:09:08 by junykim           #+#    #+#             */
-/*   Updated: 2022/06/28 15:39:14 by junykim          ###   ########.fr       */
+/*   Created: 2022/06/28 15:07:00 by junykim           #+#    #+#             */
+/*   Updated: 2022/06/28 15:08:12 by junykim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex_bonus.h"
+#ifndef ERROR_MSG_BONUS_H
+# define ERROR_MSG_BONUS_H
 
-void	msg_error(char *s)
-{
-	perror(s);
-	exit(1);
-}
+# define ERR_INFILE "Infile"
+# define ERR_OUTFILE "Outfile"
+# define ERR_INPUT "Invalid number of arguments.\n"
+# define ERR_ALLOC "MEMORY Allocation Fail.\n"
+# define ERR_ENVP "Environment"
+# define ERR_CMD "Command not found: "
+# define ERR_HEREDOC "here_doc"
+
+#endif

@@ -6,13 +6,14 @@
 /*   By: junykim <junykim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 22:35:10 by junykim           #+#    #+#             */
-/*   Updated: 2022/05/24 22:48:01 by junykim          ###   ########.fr       */
+/*   Updated: 2022/06/28 16:07:31 by junykim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include "error_msg.h"
 
-char *get_cmd(char *cmd, char **paths)
+char	*get_cmd(char *cmd, char **paths)
 {
 	char	*tmp;
 	char	*command;
@@ -32,15 +33,15 @@ char *get_cmd(char *cmd, char **paths)
 
 void	first_child(t_pipex pipex, char **av, char **envp)
 {
-	dup2(pipex.fd[1], 1);
+	dup2(pipex.fd[1], 1);//이걸 왜 표준출력에 복사하지 ? 
 	close(pipex.fd[0]);
 	dup2(pipex.infile, 0);
-	pipex.cmd_args = ft_split(av[2], ' ');
+	pipex.cmd_args = ft_split(av[2], ' ');//argv가 이미 ' '를 기준으로 나뉘는데 split 왜 하는거임?
 	pipex.command = get_cmd(pipex.cmd_args[0], pipex.cmds);
 	if (!pipex.command)
 	{
 		child_free(&pipex);
-		ft_error("first command not found");
+		msg_error(ERR_CMD);
 		exit(1);
 	}
 	execve(pipex.command, pipex.cmd_args, envp);
@@ -56,7 +57,7 @@ void	second_child(t_pipex pipex, char **av, char **envp)
 	if (!pipex.command)
 	{
 		child_free(&pipex);
-		ft_error("second command not found");
+		msg_error(ERR_CMD);
 		exit(1);
 	}
 	execve(pipex.command, pipex.cmd_args, envp);

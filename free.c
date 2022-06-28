@@ -1,18 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_message.h                                    :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junykim <junykim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/20 11:23:12 by junykim           #+#    #+#             */
-/*   Updated: 2022/05/24 18:00:11 by junykim          ###   ########.fr       */
+/*   Created: 2022/06/27 19:27:56 by junykim           #+#    #+#             */
+/*   Updated: 2022/06/27 19:33:54 by junykim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ERROR_MESSAGE_H
-# define ERROR_MESSAGE_H
+#include "pipex.h"
 
-# define ERR_ARG_NUM "error argument num"
-# define FAIL_FD_ALLOC "fail file discriptor mallocation"
-#endif
+void	parent_free(t_pipex *pipex)
+{
+	int	i;
+
+	i = 0;
+	close(pipex->infile);
+	close(pipex->outfile);
+	while (pipex->cmds[i])
+	{
+		free(pipex->cmds[i]);
+		i++;
+	}
+	free(pipex->cmd_path);
+}
+
+void	child_free(t_pipex *pipex)
+{
+	int	i;
+
+	i = 0;
+	while (pipex->cmd_args[i])
+	{
+		free(pipex->cmd_args[i]);
+		i++;
+	}
+	free(pipex->cmd_args);
+	free(pipex->cmd_path);
+}
