@@ -6,7 +6,7 @@
 #    By: junykim <junykim@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/24 21:45:58 by junykim           #+#    #+#              #
-#    Updated: 2022/07/21 16:34:58 by junykim          ###   ########.fr        #
+#    Updated: 2022/07/21 17:03:40 by junykim          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,7 @@ $(NAME) : $(OBJ)
 	@make -C $(LIBFT)
 	@mv $(LIBFT)/libft.a .
 	$(ARC) $@ $(OBJ)
-	$(CC) $(CFLAG) $(OBJ) libft.a $@
+	$(CC) $(CFLAG) $(OBJ) libft.a -o $@
 	@echo "==================pipex compiled finished=================="
 
 %.o : %.c
@@ -62,9 +62,14 @@ bonus :
 
 clean :
 	$(DEL) $(OBJS) $(OBJS_B)
+	$(DEL) libft.a
+	make clean -C $(LIBFT)
+	@echo "=================pipex obj files have been deleted================="
 
 fclean : clean
 	$(DEL) $(NAME)
+	$(DEL) $(LIBFT)/libft.a
+	@ echo "=================pipex all files have been deleted================"
 
 re :
 	make fclean
