@@ -6,7 +6,7 @@
 /*   By: junykim <junykim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 20:15:17 by junykim           #+#    #+#             */
-/*   Updated: 2022/06/28 16:08:56 by junykim          ###   ########.fr       */
+/*   Updated: 2022/07/20 16:24:31 by junykim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,11 @@ typedef struct s_pipexb
 	int			idx;
 }	t_pipexb;
 
-/* child_bonus.c */
-void	child(t_pipexb pipex, char **av, char **envp);
+/* main.c */
 void	close_pipes(t_pipexb *pipex);
+
+/* pipex_bonus.c */
+void	child(t_pipexb pipex, char **av, char **envp);
 
 /* free.c */
 void	parent_free(t_pipexb *pipex);

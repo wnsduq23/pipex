@@ -6,7 +6,7 @@
 /*   By: junykim <junykim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:44:37 by junykim           #+#    #+#             */
-/*   Updated: 2022/06/28 15:57:26 by junykim          ###   ########.fr       */
+/*   Updated: 2022/07/21 14:57:18 by junykim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,13 @@ void	here_doc(char *av, t_pipexb *p)
 		msg_error(ERR_INFILE);
 	while (1)
 	{
-		write(1, "Pipe heredoc>", 14);
+		write(1, "pipe heredoc> ", 14);
 		buf = get_next_line(0);
 		if (buf <= 0)
 			exit(1);
-		if (!ft_strncmp(av, buf, ft_strlen(av) + 1))
+		if (!ft_strncmp(av, buf, ft_strlen(av)))
 			break ;
 		write(file, buf, ft_strlen(buf));
-		write(file, "\n", 1);// 어차피 gnl이 개행문자를 포함한 한줄이라 필요없나? 
 		free(buf);
 	}
 	free(buf);

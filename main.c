@@ -6,7 +6,7 @@
 /*   By: junykim <junykim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 22:17:12 by junykim           #+#    #+#             */
-/*   Updated: 2022/06/28 16:04:11 by junykim          ###   ########.fr       */
+/*   Updated: 2022/07/20 15:31:06 by junykim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	main(int ac, char **av, char **envp)
 		msg_error(ERR_FORK);
 	else if (pipex.pid2 == 0)
 		second_child(pipex, av, envp);
-	close_pipe(&pipex);
+	/** close_pipe(&pipex); */
 	waitpid(pipex.pid1, NULL, 0);
 	waitpid(pipex.pid2, NULL, 0);
 	parent_free(&pipex);

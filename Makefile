@@ -6,7 +6,7 @@
 #    By: junykim <junykim@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/24 21:45:58 by junykim           #+#    #+#              #
-#    Updated: 2022/06/28 16:15:53 by junykim          ###   ########.fr        #
+#    Updated: 2022/07/21 16:34:58 by junykim          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,9 +48,11 @@ endif
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	@make WITH_BONUS -C $(LIBFT)
-	@mv $(LIBFT)/libft.a $(NAME)
+	@make -C $(LIBFT)
+	@mv $(LIBFT)/libft.a .
 	$(ARC) $@ $(OBJ)
+	$(CC) $(CFLAG) $(OBJ) libft.a $@
+	@echo "==================pipex compiled finished=================="
 
 %.o : %.c
 	$(CC) $(CFLAG) -c $< -o $@ -I $(INC)

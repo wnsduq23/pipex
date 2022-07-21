@@ -6,11 +6,12 @@
 /*   By: junykim <junykim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 20:12:50 by junykim           #+#    #+#             */
-/*   Updated: 2022/06/28 13:44:34 by junykim          ###   ########.fr       */
+/*   Updated: 2022/07/21 14:19:57 by junykim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
+#include "error_msg_bonus.h"
 
 void	parent_free(t_pipexb *pipex)
 {
@@ -51,6 +52,6 @@ void	pipe_free(t_pipexb *pipex)
 	if (pipex->here_doc)
 		unlink(".heredoc_tmp");
 	free(pipex->pipe);
-	msg(ERR_ENVP);
+	msg_error(ERR_ENVP);
 	exit(1);
 }

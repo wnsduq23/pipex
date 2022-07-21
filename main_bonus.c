@@ -6,7 +6,7 @@
 /*   By: junykim <junykim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 19:51:59 by junykim           #+#    #+#             */
-/*   Updated: 2022/06/28 16:05:11 by junykim          ###   ########.fr       */
+/*   Updated: 2022/07/21 13:37:38 by junykim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ int	main(int ac, char **av, char **envp)
 	get_outfile(av[ac - 1], &pipex);
 	pipex.env_path = find_path(envp);
 	pipex.cmd_paths = ft_split(pipex.env_path, ':');
-	if (!pipex.cmd_paths) //mandatory에는 없는데
+	if (!pipex.cmd_paths)
 		pipe_free(&pipex);
-	pipex.cmd_nums = ac - 3 - pipex.here_doc;// 3 : infile, outfile, path
+	pipex.cmd_nums = ac - 3 - pipex.here_doc;
 	pipex.pipe_nums = 2 * (pipex.cmd_nums - 1);
 	pipex.pipe = (int *)malloc(sizeof(int) * pipex.pipe_nums);
 	if (!pipex.pipe)

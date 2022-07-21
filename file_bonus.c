@@ -6,11 +6,12 @@
 /*   By: junykim <junykim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 20:13:14 by junykim           #+#    #+#             */
-/*   Updated: 2022/06/28 14:33:17 by junykim          ###   ########.fr       */
+/*   Updated: 2022/07/20 15:19:42 by junykim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
+#include "error_msg_bonus.h"
 
 char	*find_path(char **envp)
 {
