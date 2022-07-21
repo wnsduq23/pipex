@@ -5,59 +5,60 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: junykim <junykim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/18 22:17:12 by junykim           #+#    #+#             */
-/*   Updated: 2022/07/20 15:31:06 by junykim          ###   ########.fr       */
+/*   Created: 2022/07/21 17:40:02 by junykim           #+#    #+#             */
+/*   Updated: 2022/07/21 17:40:03 by junykim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "pipex.h"
 #include "error_msg.h"
-#include <fcntl.h>
 
-/** extern char	**environ; // save env */
-
-// pid > 0 -> parent procssor , pid = 0 -> child processor
-char	*find_path(char **envp)
+static void	creat_pipes(t_pipexb *pipex)
 {
-	while (ft_strncmp("PATH", *envp, 4))
-		envp++;
-	return (*envp + 5);
+	int	i;
+
+	i = 0;
+	while (i < pipex->cmd_nums - 1)
+	{
+		if (pipe(pipex->pipe + 2 * i) < 0)
+			parent_free(pipex);
+		i++;
+	}
 }
 
-void	open_files(t_pipex *pipex, int ac, char **av)
+void	close_pipes(t_pipexb *pipex)
 {
-	pipex->infile = open(av[1], O_RDONLY);
-	if (pipex->infile == -1)
-		msg_error(ERR_ALLOC);
-	pipex->outfile = open(av[ac - 1], O_RDWR | O_TRUNC | O_CREAT, 00644);
-	if (pipex->outfile == -1)
-		msg_error(ERR_ALLOC);
+	int	i;
+
+	i = -1;
+	while (++i < pipex->pipe_nums)
+		close(pipex->pipe[i]);
 }
 
 int	main(int ac, char **av, char **envp)
 {
-	t_pipex	pipex;
+	t_pipexb	pipex;
 
-	if (ac < 5)
-		msg_error(ERR_ARG_NUM);
-	open_files(&pipex, ac, av);
-	if (pipe(pipex.fd) == -1)
+	if (ac < is_here_doc(av[1], &pipex))
+		msg_error(ERR_INPUT);
+	get_infile(av, &pipex);
+	get_outfile(av[ac - 1], &pipex);
+	pipex.env_path = find_path(envp);
+	pipex.cmd_paths = ft_split(pipex.env_path, ':');
+	if (!pipex.cmd_paths)
+		pipe_free(&pipex);
+	pipex.cmd_nums = ac - 3 - pipex.here_doc;
+	pipex.pipe_nums = 2 * (pipex.cmd_nums - 1);
+	pipex.pipe = (int *)malloc(sizeof(int) * pipex.pipe_nums);
+	if (!pipex.pipe)
 		msg_error(ERR_ALLOC);
-	pipex.cmd_path = find_path(envp);
-	pipex.cmds = ft_split(pipex.cmd_path, ':');
-	pipex.pid1 = fork();
-	if (pipex.pid1 < 0)
-		msg_error(ERR_FORK);
-	else if (pipex.pid1 == 0)
-		first_child(pipex, av, envp);
-	pipex.pid2 = fork();
-	if (pipex.pid2 < 0)
-		msg_error(ERR_FORK);
-	else if (pipex.pid2 == 0)
-		second_child(pipex, av, envp);
-	/** close_pipe(&pipex); */
-	waitpid(pipex.pid1, NULL, 0);
-	waitpid(pipex.pid2, NULL, 0);
+	creat_pipes(&pipex);
+	pipex.idx = -1;
+	while (++(pipex.idx) < pipex.cmd_nums)
+		child(pipex, av, envp);
+	close_pipes(&pipex);
+	waitpid(-1, NULL, 0);
 	parent_free(&pipex);
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: junykim <junykim@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/24 21:45:58 by junykim           #+#    #+#              #
-#    Updated: 2022/07/21 17:03:40 by junykim          ###   ########.fr        #
+#    Updated: 2022/07/21 17:51:30 by junykim          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,8 @@ LIBFT		= libft
 SRC_FILES	= pipex \
 			  util \
 			  free \
+			  here_doc \
+			  file \
 			  main
 SRCS		= $(addsuffix .c, $(SRC_FILES))
 OBJS		= $(addsuffix .o, $(SRC_FILES))

@@ -5,29 +5,34 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: junykim <junykim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/27 19:27:56 by junykim           #+#    #+#             */
-/*   Updated: 2022/07/20 15:31:02 by junykim          ###   ########.fr       */
+/*   Created: 2022/07/21 17:38:26 by junykim           #+#    #+#             */
+/*   Updated: 2022/07/21 17:38:34 by junykim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
 
-void	parent_free(t_pipex *pipex)
+#include "pipex.h"
+#include "error_msg.h"
+
+void	parent_free(t_pipexb *pipex)
 {
 	int	i;
 
 	i = 0;
 	close(pipex->infile);
 	close(pipex->outfile);
-	while (pipex->cmds[i])
+	if (pipex->here_doc)
+		unlink(".heredoc_tmp");
+	while (pipex->cmd_paths[i])
 	{
-		free(pipex->cmds[i]);
+		free(pipex->cmd_paths[i]);
 		i++;
 	}
-	free(pipex->cmd_path);
+	free(pipex->cmd_paths);
+	free(pipex->pipe);
 }
 
-void	child_free(t_pipex *pipex)
+void	child_free(t_pipexb *pipex)
 {
 	int	i;
 
@@ -38,5 +43,16 @@ void	child_free(t_pipex *pipex)
 		i++;
 	}
 	free(pipex->cmd_args);
-	free(pipex->cmd_path);
+	free(pipex->cmd);
+}
+
+void	pipe_free(t_pipexb *pipex)
+{
+	close(pipex->infile);
+	close(pipex->outfile);
+	if (pipex->here_doc)
+		unlink(".heredoc_tmp");
+	free(pipex->pipe);
+	msg_error(ERR_ENVP);
+	exit(1);
 }

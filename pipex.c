@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: junykim <junykim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/24 22:35:10 by junykim           #+#    #+#             */
-/*   Updated: 2022/07/20 17:18:50 by junykim          ###   ########.fr       */
+/*   Created: 2022/05/24 20:08:38 by junykim           #+#    #+#             */
+/*   Updated: 2022/07/20 16:23:54 by junykim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
-#include "error_msg.h"
+#include "pipex_bonus.h"
+#include "error_msg_bonus.h"
 
-char	*get_cmd(char *cmd, char **paths)
+static char	*get_cmd(char **paths, char *cmd)
 {
 	char	*tmp;
 	char	*command;
@@ -31,34 +31,31 @@ char	*get_cmd(char *cmd, char **paths)
 	return (NULL);
 }
 
-void	first_child(t_pipex pipex, char **av, char **envp)
+static void	sub_dup2(int zero, int first)
 {
-	dup2(pipex.fd[1], 1);
-	close(pipex.fd[0]);
-	dup2(pipex.infile, 0);
-	pipex.cmd_args = ft_split(av[2], ' ');
-	pipex.command = get_cmd(pipex.cmd_args[0], pipex.cmds);
-	if (!pipex.command)
-	{
-		child_free(&pipex);
-		msg_error(ERR_CMD);
-		exit(1);
-	}
-	execve(pipex.command, pipex.cmd_args, envp);
+	dup2(zero, 0);
+	dup2(first, 1);
 }
 
-void	second_child(t_pipex pipex, char **av, char **envp)
+void	child(t_pipexb p, char **av, char **envp)
 {
-	dup2(pipex.fd[0], 0);
-	close(pipex.fd[1]);
-	dup2(pipex.outfile, 1);
-	pipex.cmd_args = ft_split(av[3], ' ');
-	pipex.command = get_cmd(pipex.cmd_args[0], pipex.cmds);
-	if (!pipex.command)
+	p.pid = fork();
+	if (!p.pid)
 	{
-		child_free(&pipex);
-		msg_error(ERR_CMD);
-		exit(1);
+		if (p.idx == 0)
+			sub_dup2(p.infile, p.pipe[1]);
+		else if (p.idx == p.cmd_nums - 1)
+			sub_dup2(p.pipe[2 * p.idx - 2], p.outfile);
+		else
+			sub_dup2(p.pipe[2 * p.idx - 2], p.pipe[2 * p.idx + 1]);
+		close_pipes(&p);
+		p.cmd_args = ft_split(av[2 + p.here_doc + p.idx], ' ');
+		p.cmd = get_cmd(p.cmd_paths, p.cmd_args[0]);
+		if (!p.cmd)
+		{
+			child_free(&p);
+			msg_error(ERR_CMD);
+		}
+		execve(p.cmd, p.cmd_args, envp);
 	}
-	execve(pipex.command, pipex.cmd_args, envp);
 }
