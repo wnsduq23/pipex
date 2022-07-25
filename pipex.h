@@ -6,10 +6,9 @@
 /*   By: junykim <junykim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 17:38:59 by junykim           #+#    #+#             */
-/*   Updated: 2022/07/21 17:42:21 by junykim          ###   ########.fr       */
+/*   Updated: 2022/07/21 17:55:12 by junykim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef PIPEX_H
 # define PIPEX_H

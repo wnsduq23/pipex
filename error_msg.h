@@ -6,10 +6,9 @@
 /*   By: junykim <junykim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 17:41:08 by junykim           #+#    #+#             */
-/*   Updated: 2022/07/21 17:41:16 by junykim          ###   ########.fr       */
+/*   Updated: 2022/07/21 17:54:34 by junykim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef ERROR_MSG_H
 # define ERROR_MSG_H
