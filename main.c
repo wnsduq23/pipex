@@ -6,7 +6,7 @@
 /*   By: junykim <junykim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 17:40:02 by junykim           #+#    #+#             */
-/*   Updated: 2022/07/21 17:54:52 by junykim          ###   ########.fr       */
+/*   Updated: 2022/11/01 19:08:35 by junykim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ static void	creat_pipes(t_pipexb *pipex)
 	while (i < pipex->cmd_nums - 1)
 	{
 		if (pipe(pipex->pipe + 2 * i) < 0)
+		{
 			parent_free(pipex);
+			exit(1);
+		}
 		i++;
 	}
 }
@@ -55,9 +58,13 @@ int	main(int ac, char **av, char **envp)
 	creat_pipes(&pipex);
 	pipex.idx = -1;
 	while (++(pipex.idx) < pipex.cmd_nums)
-		child(pipex, av, envp);
+		child(&pipex, av, envp);
 	close_pipes(&pipex);
-	waitpid(-1, NULL, 0);
+	while (pipex.idx)
+	{
+		waitpid(-1, NULL, 0);
+		pipex.idx--;
+	}
 	parent_free(&pipex);
 	return (0);
 }

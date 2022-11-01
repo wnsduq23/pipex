@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: junykim <junykim@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/27 20:15:17 by junykim           #+#    #+#             */
-/*   Updated: 2022/07/25 16:04:47 by junykim          ###   ########.fr       */
+/*   Created: 2022/07/21 17:38:59 by junykim           #+#    #+#             */
+/*   Updated: 2022/11/01 22:59:37 by junykim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,24 +61,24 @@ typedef struct s_pipexb
 /* main.c */
 void	close_pipes(t_pipexb *pipex);
 
-/* pipex_bonus.c */
-void	child(t_pipexb pipex, char **av, char **envp);
+/* pipex.c */
+void	child(t_pipexb *pipex, char **av, char **envp);
 
 /* free.c */
 void	parent_free(t_pipexb *pipex);
 void	child_free(t_pipexb *pipex);
 void	pipe_free(t_pipexb *pipex);
 
-/* files_bonus.c */
+/* files.c */
 char	*find_path(char **envp);
 void	get_infile(char **av, t_pipexb *pipex);
 void	get_outfile(char *av, t_pipexb *pipex);
 
-/* here_doc_bonus.c */
+/* here_doc.c */
 int		is_here_doc(char *arg, t_pipexb *pipex);
 void	here_doc(char *av, t_pipexb *pipex);
 
-/* error_bonus.c */
+/* error.c */
 void	msg_error(char *err);
 void	msg_pipe(char *arg);
 int		msg(char *err);
